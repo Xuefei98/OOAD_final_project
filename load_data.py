@@ -63,9 +63,9 @@ m1.add_Movies({"movieid": 2, "name": "Let him Go", "duration": 113, "genre": "Dr
 m1.add_Movies({"movieid": 3, "name": "Mortal", "duration": 104, "genre": "Action"})       
 m1.add_Movies({"movieid": 4, "name": "Ammonite", "duration": 120, "genre": "Romance"}) 
 
-m1.add_Theaters({"theaterid": 1, "name": "The 88 Drive in Theater", "distance": 1.5, "isFoodAvailable": True, "foodList": ["1","2"]})   
-m1.add_Theaters({"theaterid": 2, "name": "Boulder mart Drive in", "distance": 0.5, "isFoodAvailable": True, "foodList": ["3","4"]}) 
-m1.add_Theaters({"theaterid": 3, "name": "Sonic Drive in", "distance": 2.5, "isFoodAvailable": True, "foodList": ["5","6"]}) 
+m1.add_Theaters({"theaterid": 1, "name": "The 88 Drive in Theater", "distance": 1.5, "isFoodAvailable": True, "foodList": [1,2]})   
+m1.add_Theaters({"theaterid": 2, "name": "Boulder mart Drive in", "distance": 0.5, "isFoodAvailable": True, "foodList": [3,4]}) 
+m1.add_Theaters({"theaterid": 3, "name": "Sonic Drive in", "distance": 2.5, "isFoodAvailable": True, "foodList": [5,6]}) 
 
 m1.add_Food({"foodid": 1, "name": "Popcorn", "price": 15, "availableQuantity": 10})   
 m1.add_Food({"foodid": 2, "name": "Beer", "price": 20, "availableQuantity": 10})  
@@ -75,8 +75,8 @@ m1.add_Food({"foodid": 5, "name": "Popcorn", "price": 15, "availableQuantity": 1
 m1.add_Food({"foodid": 6, "name": "Beer", "price": 20, "availableQuantity": 10})   
 
 
-m1.add_Shows({"showid": 1, "theaterid": 1, "movieid": 1, "price": 20, "availableSlots": 30 })   
-
-
+m1.add_Shows({"showid": 1, "theaterid": 1, "movieid": 1, "price": 20, "availableSlots": 30 })  
+m1.add_Shows({"showid": 2, "theaterid": 2, "movieid": 3, "price": 15, "availableSlots": 30 }) 
+ 
 m1.add_User({"email": "john@gmail.com", "password": "password", "genre": "Action", "maxDistance": 2, "maxPrice": 30})
 """
