@@ -40,16 +40,13 @@ class Model:
         self.users_collection.insert_one(doc)      
     def getShows(self, preference):
        recordList = [] 
-       print(preference['maxPrice'])
        showsList = self.shows_collection.find({"price":{ "$lte" : preference['maxPrice']}})
        print("shows")
        for show in showsList:
-           print('entryshow')
            theatersList = self.theaters_collection.find({"theaterid": show['theaterid'], "distance": { "$lte" : preference['maxDistance']}})
            for theater in theatersList:
                moviesList = self.movies_collection.find({"movieid": show['movieid'], "genre": preference['genre']})
                for movie in moviesList:
-                   print('entrymovie')
                    d = dict()
                    d['movieName'] = movie['name']
                    d['duration'] = movie['duration']
@@ -58,6 +55,7 @@ class Model:
                    d['theaterName'] = theater['name']
                    d['distance'] = theater['distance']
                    d['theaterid'] = theater['theaterid']
+                   d['showid'] = show['showid']
                    d['price'] = show['price']
                    d['foodList'] = []
                    for item in theater['foodList']:
@@ -69,6 +67,7 @@ class Model:
                        d['foodList'].append(e)    
                    recordList.append(Show(d))
        return recordList
+   
     def updatePreferences(self, email, genre, maxDistance, maxPrice):
         self.users_collection.update({"email":email}, { "$set": {"genre": genre, "maxDistance": int(maxDistance), "maxPrice": int(maxPrice)}})
         return self.getUser(email)

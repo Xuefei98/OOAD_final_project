@@ -12,6 +12,7 @@ class Controller:
     instance=None
     model=None
     session=None
+    showsRes=None
     ##-- Singleton Pattern --##
     @staticmethod
     def getInstance():
@@ -34,6 +35,7 @@ class Controller:
         app.add_url_rule('/signUp', 'signUp', lambda: controller2.signUp(), methods=['POST'])
         app.add_url_rule('/signOut', 'signOut', lambda: controller2.signOut(), methods=['POST'])
         app.add_url_rule('/shows', 'shows', lambda: controller2.shows(), methods=['POST', 'GET'])
+        app.add_url_rule('/show', 'show', lambda: controller2.show(), methods=['POST', 'GET'])
         app.add_url_rule('/dashboard', 'dashboard', lambda: controller2.dashboard(), methods=['POST', 'GET'])
         app.add_url_rule('/updatePreferences', 'updatePreferences', lambda: controller2.updatePreferences(), methods=['POST'])
     def index(self):
@@ -75,12 +77,34 @@ class Controller:
     def shows(self):
         res= []
         if request.method == 'GET':
-            showsRes= self.model.getShows(self.session['user'].preferenceList.getPreferences())
-            for item in showsRes:
+            self.showsRes= self.model.getShows(self.session['user'].preferenceList.getPreferences())
+            for item in self.showsRes:
                 d = dict()
                 d['theaterName'] = item.getShowDetails()['theater'].getTheaterDetails()['theaterName']
                 d['movieName'] = item.getShowDetails()['movie'].getMovieDetails()['movieName']
+                d['price'] = item.getShowDetails()['price']
                 res.append(d)
+        return jsonify(res) 
+    def show(self):
+        res= []
+        if request.method == 'GET':
+            index= int(request.args.get('index'))
+            print("index")
+            print(index)
+            item= self.showsRes[index]
+            d = dict()
+            d['theaterName'] = item.getShowDetails()['theater'].getTheaterDetails()['theaterName']
+            d['distance'] = item.getShowDetails()['theater'].getTheaterDetails()['distance']
+            d['movieName'] = item.getShowDetails()['movie'].getMovieDetails()['movieName']
+            d['genre'] = item.getShowDetails()['movie'].getMovieDetails()['genre']
+            d['price'] = item.getShowDetails()['price']
+            d['foodList'] = []
+            for foodItem in item.getShowDetails()['theater'].getTheaterDetails()['foodList']:
+                e = dict()
+                e['foodName'] = foodItem.getFoodDetails()['foodName']
+                e['foodprice'] = foodItem.getFoodDetails()['foodprice']  
+                d['foodList'].append(e)    
+            res.append(d)
         return jsonify(res)  
     def signOut(self):
         self.session= None
