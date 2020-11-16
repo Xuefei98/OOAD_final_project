@@ -11,3 +11,4 @@
 1. Python 3.7.3
 2. Flask 1.1.1
 3. pymongo
+4. dnspython
