@@ -14,7 +14,7 @@ class Payment:
 
         for i, digit in enumerate(validateCardNum):
             if i % 2 == 0:
-                doulbed = int(digit) * 2
+                doubled = int(digit) * 2
 
                 # subtract 9 if product over 9
                 if doubled > 9:
@@ -30,7 +30,3 @@ class Payment:
             return True
         else:
             return False
-
-    def generateTicket(self):
-        # QUESTIONABLE TODO
-        

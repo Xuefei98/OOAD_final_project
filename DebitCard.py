@@ -5,10 +5,10 @@ class DebitCard(Payment):
         self.securityCode = securityCode
     
     def validate(self):
-        if len(self.cardNumber) != 10:
-            print("Needs 10 numbers")
+        if self.cardNumber[0] != 1:
+            print("Invalid Debit Card Number. Requires 1 as first number.")
         else:
             super(DebitCard, self).validate()
     
-    def generateTicket(self):
-        super(DebitCard, self).generateTicket()
+    # def generateTicket(self):
+    #     super(DebitCard, self).generateTicket()
