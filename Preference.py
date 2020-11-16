@@ -9,5 +9,3 @@ class Preference:
         d['maxDistance'] = self.maxDistance
         d['maxPrice'] = self.maxPrice
         return d
-        
-        

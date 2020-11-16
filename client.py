@@ -14,28 +14,29 @@ print(json.loads(response.text))
 #user raises a login request and begins the session
 login_url = addr + '/login'
 response = requests.post(login_url, params={'username': 'john@gmail.com', 'password': 'password'})
-print("Response is", response)
+print("Login Response is", response)
 print(json.loads(response.text))
 
-#user chooses from teh list of shows displayed using index linked to the select button
+#user chooses from the list of shows displayed using index linked to the select button
 show_url = addr + '/show'
 response = requests.get(show_url, params={'index': 0})
-print("Response is", response)
+print("Show Response is", response)
 print(json.loads(response.text))
 
 #user raises request to view their profile dashboard which contains current preferences and purchase history
 dashboard_url = addr + '/dashboard'
 response = requests.get(dashboard_url)
-print("Response is", response)
+print("Daskboard Response is", response)
 print(json.loads(response.text))
 
 #user raises request to update their preferences
 preferences_url = addr + '/updatePreferences'
 response = requests.post(preferences_url, params={'genre': 'Action', 'maxDistance': 3, 'maxPrice': 30})
-print("Response is", response)
+print("Update Preference Response is", response)
 print(json.loads(response.text))
 
 #user ends his session
 signOut_url = addr + '/signOut'
 response = requests.post(signOut_url)
-print("Response is", response)
+print("Sign out Response is", response)
+

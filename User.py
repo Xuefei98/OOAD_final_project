@@ -6,4 +6,3 @@ class User:
     def __init__(self, userID, genre, maxDistance, maxPrice):
         self.email = userID
         self.preferenceList = Preference(genre, maxDistance, maxPrice)
-        

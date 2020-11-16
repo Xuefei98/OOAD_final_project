@@ -10,4 +10,3 @@ class Food:
         d['foodName'] = self.name
         d['foodprice'] = self.price
         return d   
-        

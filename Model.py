@@ -1,5 +1,5 @@
 from pymongo import MongoClient
-import dns
+#import dns
 from User import User
 from Show import Show
 ###--- MVC Pattern - Model ---###
@@ -17,19 +17,22 @@ class Model:
             self.food_collection = self.db["food"]
             self.shows_collection = self.db["shows"]
             self.preferences_collection = self.db["preferences"]
-            
+            self.purchase_collection = self.db['purchases']
+
     ###--- Verifying Credentials of a User ---###
     def getCredentials(self,email): #Fetching the password for a given email id
-        record = self.users_collection.find_one({"email":email})
+        record = self.users_collection.find_one({"email": email})
         if record!=None:
             print(record['password'])
             return record['password']
         else:
-            return None  
+            return None
+
     def getUser(self, email):
        record = self.users_collection.find_one({"email":email})
        self.user = User(record['email'], record['genre'], record['maxDistance'], record['maxPrice'])
-       return self.user 
+       return self.user
+
     def addUser(self,record):
         email = record['email']
         password = record['password']
@@ -37,7 +40,8 @@ class Model:
         maxDistance = record['maxDistance']
         maxPrice = record['maxPrice']
         doc = {"email": email, "password": password, "genre": genre, "maxDistance": int(maxDistance), "maxPrice": int(maxPrice)}
-        self.users_collection.insert_one(doc)      
+        self.users_collection.insert_one(doc)
+
     def getShows(self, preference):
        recordList = [] 
        showsList = self.shows_collection.find({"price":{ "$lte" : preference['maxPrice']}})
@@ -67,9 +71,28 @@ class Model:
                        d['foodList'].append(e)    
                    recordList.append(Show(d))
        return recordList
-   
+
+    def addPurchase(self,purchaseInfo):
+        purchaseID=purchaseInfo['purchaseID']
+        user=purchaseInfo['username']
+        movie=purchaseInfo['movie']
+        moviePrice=purchaseInfo['moviePrice']
+        foodList=purchaseInfo['foodList']
+        foodPrice=purchaseInfo['foodPrice']
+        theatreName=purchaseInfo['theaterName']
+        cardNumber=self.purchaseInfo['cardNumber']
+        expireDate=self.purchaseInfo['expireDate']
+        record={"purchaseID":purchaseID,"user":user, "movie name":movie, "movie price": moviePrice, "food": foodList,"food price": foodPrice,"theatreName":theatreName,"cardNumver":cardNumber}
+        self.purchase_collection.insert_one(record)
+
+    def findAllPurchase(self,username):
+        records = self.purchase_collection.find_one({"username": username})
+        return records
+
+    def deletePurchaseRecord(self,purchaseID):
+        self.purchase_collection.detleteOne({"purchaseID":purchaseID})
+        return "we delete a purchase record"
+
     def updatePreferences(self, email, genre, maxDistance, maxPrice):
         self.users_collection.update({"email":email}, { "$set": {"genre": genre, "maxDistance": int(maxDistance), "maxPrice": int(maxPrice)}})
         return self.getUser(email)
-       
-        

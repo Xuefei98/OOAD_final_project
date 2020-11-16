@@ -12,4 +12,3 @@ class Movie:
         d['genre'] = self.genre
         d['movieid'] = self.movieid
         return d   
-        

@@ -16,4 +16,3 @@ class Theater:
         d['theaterid'] = self.theaterid
         d['foodList'] = self.foodList
         return d   
-        

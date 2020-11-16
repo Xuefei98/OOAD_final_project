@@ -1,32 +1,16 @@
 class Payment:
-    """
-    validate func from:
-    https://blog.tecladocode.com/python-30-day-9-project/
-    """
+
+    def __init__(self, cardNumber, securityCode, expireDate):
+        self.cardNumber = cardNumber
+        self.securityCode = securityCode
+        self.expireDate=expireDate
+
     def validate(self):
-        validateCardNum = list((self.cardNumber).strip())
-        # pop off check digit
-        checkDigit = validateCardNum.pop()
-        # reverse order of remaining numbers
-        validateCardNum.reverse()
+        pass
 
-        finishedDigits = []
-
-        for i, digit in enumerate(validateCardNum):
-            if i % 2 == 0:
-                doubled = int(digit) * 2
-
-                # subtract 9 if product over 9
-                if doubled > 9:
-                    doulbed -= 9
-                
-                finishedDigits.append(doubled)
-            else:
-                finishedDigits.append(int(digit))
-        
-        total = int(checkDigit) + sum(finishedDigits)
-
-        if total % 10 == 0:
-            return True
-        else:
-            return False
+    def PaymentSummary(self):
+        print('card number is ', self.cardNumber)
+        print('CVC number is  ', self.securityCode)
+        print('expire date is ', self.expireDate)
+        print('validate',self.validate())
+        return self.validate()

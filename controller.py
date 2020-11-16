@@ -3,6 +3,10 @@ from Model import Model
 from Context import Context
 from SignIn import SignIn
 from SignUp import SignUp
+import random
+from CreditCard import CreditCard
+from DebitCard import DebitCard
+
 ##--Starting the Web Server--##
 app = Flask(__name__)
 
@@ -13,6 +17,8 @@ class Controller:
     model=None
     session=None
     showsRes=None
+    purchaseList=None
+
     ##-- Singleton Pattern --##
     @staticmethod
     def getInstance():
@@ -29,6 +35,7 @@ class Controller:
             Controller.instance = self
             Controller.model = Model()
             Controller.session = dict()
+
     def add_url_rules(self):
         app.add_url_rule('/', 'index', lambda: controller2.index())
         app.add_url_rule('/login', 'login', lambda: controller2.login(), methods=['POST'])
@@ -37,9 +44,12 @@ class Controller:
         app.add_url_rule('/shows', 'shows', lambda: controller2.shows(), methods=['POST', 'GET'])
         app.add_url_rule('/show', 'show', lambda: controller2.show(), methods=['POST', 'GET'])
         app.add_url_rule('/dashboard', 'dashboard', lambda: controller2.dashboard(), methods=['POST', 'GET'])
+        app.add_url_rule('/purchase', 'purchase', lambda: controller2.purchase(), methods=['POST', 'GET'])
         app.add_url_rule('/updatePreferences', 'updatePreferences', lambda: controller2.updatePreferences(), methods=['POST'])
+
     def index(self):
         return "Drive and Reel"
+
     def login(self):
         if request.method == 'POST':
             s = Context(SignIn())
@@ -49,6 +59,7 @@ class Controller:
             self.session = s.getStrategy.handleActivity(self.session, self.model, params) 
             return redirect(url_for('shows'))
         return "logged in"
+
     def signUp(self):
         if request.method == 'POST':
             s = Context(SignUp())
@@ -58,13 +69,15 @@ class Controller:
             params['genre'] = request.args.get('genre')
             params['maxDistance'] = request.args.get('maxDistance')
             params['maxPrice'] = request.args.get('maxPrice')
-            self.session = s.getStrategy.handleActivity(self.session, self.model, params) 
+            self.session = s.getStrategy.handleActivity(self.session, self.model, params)
             return redirect(url_for('shows'))
         return "logged in"
+
     def dashboard(self):
         if request.method == 'GET':
             return jsonify(self.session['user'].preferenceList.getPreferences())
         return "dashboard"
+
     def updatePreferences(self):
         if request.method == 'POST':
             newGenre= request.args.get('genre')
@@ -74,6 +87,7 @@ class Controller:
             self.session['user']= self.model.updatePreferences(self.session['username'],newGenre,newDistance,newPrice)
             return redirect(url_for('dashboard'))
         return "updated page"
+
     def shows(self):
         res= []
         if request.method == 'GET':
@@ -84,7 +98,8 @@ class Controller:
                 d['movieName'] = item.getShowDetails()['movie'].getMovieDetails()['movieName']
                 d['price'] = item.getShowDetails()['price']
                 res.append(d)
-        return jsonify(res) 
+        return jsonify(res)
+
     def show(self):
         res= []
         if request.method == 'GET':
@@ -103,12 +118,51 @@ class Controller:
                 e = dict()
                 e['foodName'] = foodItem.getFoodDetails()['foodName']
                 e['foodprice'] = foodItem.getFoodDetails()['foodprice']  
-                d['foodList'].append(e)    
+                d['foodList'].append(e)
+            #randomlize a purchase id
+            #add movie and food list to the database
+            self.purchaseID=random.randint(10000,900000)
+            self.purchaseInfo=dict()
+            self.purchaseInfo['purchaseID']=self.purchaseID
+            self.purchaseInfo['username']=self.session['username']
+            self.purchaseInfo['movie']=d['movieName']
+            self.purchaseInfo['moviePrice']=d['price']
+            self.purchaseInfo['foodList']=d['foodList']
+            self.purchaseInfo['theaterName']=d['theaterName']
             res.append(d)
-        return jsonify(res)  
+        return jsonify(res)
+
+    def purchase(self):
+        if request.method == 'POST':
+            cardNumber = request.args.get('cardNumber')
+            securityCode = request.args.get('securityCode')
+            expireDate = request.args.get('expireDate')
+            cardType= request.args.get('cardType')
+            if cardType == "credit":
+                payPass = CreditCard(cardNumber,securityCode,expireDate).PaymentSummary()
+            else:
+                payPass = DebitCard(cardNumber,securityCode,expireDate).PaymentSummary()
+            if payPass == 1:
+                self.purchaseInfo['cardNumber']=cardNumber
+                self.purchaseInfo['expireDate']=expireDate
+                self.model.addPurchase(self.purchaseInfo)
+            else:
+                print("Sorry your card did not go through the system")
+        return "purchase record created"
+
+    def cancelPurchase(self):
+        purchase_list=self.model.findAllPurchase(self.session['username'])
+        if request.method == 'GET':
+            choose_index = int(request.args.get('index'))
+        purchase_choose=list(purchase_list.values())[choose_index]
+        purchaseID=purchase_choose["purchaseID"]
+        self.model.deletePurchaseRecord(purchaseID)
+
+
     def signOut(self):
         self.session= None
         self.session= dict()
+        self.purchaseInfo= dict()
         return redirect(url_for('index'))
 
 if __name__ == "__main__":
