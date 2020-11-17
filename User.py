@@ -12,3 +12,9 @@ class User:
         for item in purchaseList:
             res.append(Purchase(item['purchaseID'],item['movieName'],item['theaterName'],item['moviePrice'],item['foodList']))
         self.purchaseList= res    
+    def getPreferences(self):
+        return self.preferenceList
+    def getPurchases(self):
+        return self.purchaseList
+    def setPreferences(self, newPref):
+        self.preferenceList = newPref
