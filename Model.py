@@ -27,10 +27,26 @@ class Model:
             return record['password']
         else:
             return None
+        
+    def findAllPurchase(self,username):
+        records = self.purchase_collection.find({"user": username})
+        return records    
 
     def getUser(self, email):
        record = self.users_collection.find_one({"email":email})
-       self.user = User(record['email'], record['genre'], record['maxDistance'], record['maxPrice'])
+       purchaseRecords = self.findAllPurchase(email)
+       print('purchase')
+       #print(purchaseRecords[0]['foodList'])
+       record['purchaseList'] = [] 
+       for item in purchaseRecords:
+           e = dict()
+           e['purchaseID'] = item['purchaseID']
+           e['movieName'] = item['movieName']
+           e['theaterName'] = item['theaterName']
+           e['moviePrice'] = item['moviePrice'] 
+           e['foodList'] = item['foodList']
+           record['purchaseList'].append(e)      
+       self.user = User(record['email'], record['genre'], record['maxDistance'], record['maxPrice'],record['purchaseList'])
        return self.user
 
     def addUser(self,record):
@@ -75,21 +91,16 @@ class Model:
     def addPurchase(self,purchaseInfo):
         purchaseID=purchaseInfo['purchaseID']
         user=purchaseInfo['username']
-        movie=purchaseInfo['movie']
+        movieName=purchaseInfo['movieName']
         moviePrice=purchaseInfo['moviePrice']
         foodList=purchaseInfo['foodList']
-        theatreName=purchaseInfo['theaterName']
+        theaterName=purchaseInfo['theaterName']
         cardNumber=purchaseInfo['cardNumber']
-        expireDate=purchaseInfo['expireDate']
-        record={"purchaseID":purchaseID,"user":user, "movie name":movie, "movie price": moviePrice, "food": foodList,"theatreName":theatreName,"cardNumver":cardNumber}
+        record={"purchaseID":purchaseID,"user":user, "movieName":movieName, "moviePrice": moviePrice, "foodList": foodList,"theaterName":theaterName,"cardNumver":cardNumber}
         self.purchase_collection.insert_one(record)
 
-    def findAllPurchase(self,username):
-        records = self.purchase_collection.find_one({"username": username})
-        return records
-
     def deletePurchaseRecord(self,purchaseID):
-        self.purchase_collection.detleteOne({"purchaseID":purchaseID})
+        self.purchase_collection.remove({"purchaseID":purchaseID})
         return "we delete a purchase record"
 
     def updatePreferences(self, email, genre, maxDistance, maxPrice):

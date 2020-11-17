@@ -18,7 +18,6 @@ class Controller:
     session=None
     showsRes=None
     purchaseList=None
-
     ##-- Singleton Pattern --##
     @staticmethod
     def getInstance():
@@ -76,7 +75,17 @@ class Controller:
 
     def dashboard(self):
         if request.method == 'GET':
-            return jsonify(self.session['user'].preferenceList.getPreferences())
+            d = dict()
+            email = self.session['username']
+            self.session['user'] = self.model.getUser(email)
+            userPreferences= self.session['user'].preferenceList.getPreferences()
+            d['genre'] = userPreferences['genre']
+            d['maxDistance'] = userPreferences['maxDistance']
+            d['maxPrice'] = userPreferences['maxPrice']
+            d['purchaseList'] = []
+            for item in self.session['user'].purchaseList:
+                d['purchaseList'].append(item.getPurchaseDetails())
+            return jsonify(d)
         return "dashboard"
 
     def updatePreferences(self):
@@ -118,7 +127,8 @@ class Controller:
             for foodItem in item.getShowDetails()['theater'].getTheaterDetails()['foodList']:
                 e = dict()
                 e['foodName'] = foodItem.getFoodDetails()['foodName']
-                e['foodprice'] = foodItem.getFoodDetails()['foodprice']  
+                e['foodprice'] = foodItem.getFoodDetails()['foodprice'] 
+                e['foodQuantity'] = 0
                 d['foodList'].append(e)
             #randomlize a purchase id
             #add movie and food list to the database
@@ -126,30 +136,30 @@ class Controller:
             self.purchaseInfo=dict()
             self.purchaseInfo['purchaseID']=self.purchaseID
             self.purchaseInfo['username']=self.session['username']
-            self.purchaseInfo['movie']=d['movieName']
+            self.purchaseInfo['movieName']=d['movieName']
             self.purchaseInfo['moviePrice']=d['price']
-            self.purchaseInfo['foodList']=d['foodList']
+            self.purchaseInfo['availableFoodList']=d['foodList']
+            self.purchaseInfo['foodList']=[]
             self.purchaseInfo['theaterName']=d['theaterName']
             res.append(d)
             return jsonify(res)
 
         if request.method == 'POST':
             num_slots = request.args.get('num_slots')
-            num_burgers = request.args.get('num_burgers')
-            num_popcorn = request.args.get('num_popcorn')
-            num_beer = request.args.get('num_beer')
-            food_list = self.purchaseInfo['foodList']
-            sub_price1 = 0
-            sub_price2 = 0
-            sub_price3 = 0
-            for item in food_list:
-                if 'Burger' in item:
-                    sub_price1=num_burgers*item['foodprice']
-                if 'Popcorn' in item:
-                    sub_price2=num_popcorn*item['foodprice']
-                if 'Beer' in item:
-                    sub_price3=num_beer*item['foodprice']
-            total=sub_price1+sub_price2+sub_price3+ num_slots * self.purchaseInfo['moviePrice']
+            i=0
+            for item in self.purchaseInfo['availableFoodList']:
+                print(item)
+                item['foodQuantity'] = int(request.args.get('food_quantity_list:'+str(i)))
+                if(item['foodQuantity']>0):
+                    e=dict()
+                    e['foodName']=item['foodName']
+                    e['foodQuantity']=item['foodQuantity']
+                    self.purchaseInfo['foodList'].append(e)
+                i=i+1
+            sum= 0
+            for item in self.purchaseInfo['availableFoodList']:
+                sum+= item['foodQuantity']*item['foodprice']
+            total=sum+ int(num_slots) * self.purchaseInfo['moviePrice']
             return jsonify(total)
 
     def purchase(self):
@@ -172,11 +182,9 @@ class Controller:
         return "updated the purchase info"
 
     def cancelPurchase(self):
-        purchase_list=self.model.findAllPurchase(self.session['username'])
         if request.method == 'POST':
             choose_index = int(request.args.get('index'))
-            purchase_choose=list(purchase_list.values())[choose_index]
-            purchaseID=purchase_choose["purchaseID"]
+            purchaseID= self.session['user'].purchaseList[choose_index].getPurchaseDetails()['purchaseID']
             self.model.deletePurchaseRecord(purchaseID)
             return redirect(url_for('dashboard'))
         return "cancel Purchase"
