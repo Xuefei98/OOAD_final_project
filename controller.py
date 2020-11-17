@@ -45,6 +45,7 @@ class Controller:
         app.add_url_rule('/show', 'show', lambda: controller2.show(), methods=['POST', 'GET'])
         app.add_url_rule('/dashboard', 'dashboard', lambda: controller2.dashboard(), methods=['POST', 'GET'])
         app.add_url_rule('/purchase', 'purchase', lambda: controller2.purchase(), methods=['POST', 'GET'])
+        app.add_url_rule('/cancelPurchase', 'cancelPurchase', lambda: controller2.cancelPurchase(), methods=['POST', 'GET'])
         app.add_url_rule('/updatePreferences', 'updatePreferences', lambda: controller2.updatePreferences(), methods=['POST'])
 
     def index(self):
@@ -130,7 +131,26 @@ class Controller:
             self.purchaseInfo['foodList']=d['foodList']
             self.purchaseInfo['theaterName']=d['theaterName']
             res.append(d)
-        return jsonify(res)
+            return jsonify(res)
+
+        if request.method == 'POST':
+            num_slots = request.args.get('num_slots')
+            num_burgers = request.args.get('num_burgers')
+            num_popcorn = request.args.get('num_popcorn')
+            num_beer = request.args.get('num_beer')
+            food_list = self.purchaseInfo['foodList']
+            sub_price1 = 0
+            sub_price2 = 0
+            sub_price3 = 0
+            for item in food_list:
+                if 'Burger' in item:
+                    sub_price1=num_burgers*item['foodprice']
+                if 'Popcorn' in item:
+                    sub_price2=num_popcorn*item['foodprice']
+                if 'Beer' in item:
+                    sub_price3=num_beer*item['foodprice']
+            total=sub_price1+sub_price2+sub_price3+ num_slots * self.purchaseInfo['moviePrice']
+            return jsonify(total)
 
     def purchase(self):
         if request.method == 'POST':
@@ -148,16 +168,18 @@ class Controller:
                 self.model.addPurchase(self.purchaseInfo)
             else:
                 print("Sorry your card did not go through the system")
-        return "purchase record created"
+            return redirect(url_for('dashboard'))
+        return "updated the purchase info"
 
     def cancelPurchase(self):
         purchase_list=self.model.findAllPurchase(self.session['username'])
-        if request.method == 'GET':
+        if request.method == 'POST':
             choose_index = int(request.args.get('index'))
-        purchase_choose=list(purchase_list.values())[choose_index]
-        purchaseID=purchase_choose["purchaseID"]
-        self.model.deletePurchaseRecord(purchaseID)
-
+            purchase_choose=list(purchase_list.values())[choose_index]
+            purchaseID=purchase_choose["purchaseID"]
+            self.model.deletePurchaseRecord(purchaseID)
+            return redirect(url_for('dashboard'))
+        return "cancel Purchase"
 
     def signOut(self):
         self.session= None

@@ -78,11 +78,10 @@ class Model:
         movie=purchaseInfo['movie']
         moviePrice=purchaseInfo['moviePrice']
         foodList=purchaseInfo['foodList']
-        foodPrice=purchaseInfo['foodPrice']
         theatreName=purchaseInfo['theaterName']
-        cardNumber=self.purchaseInfo['cardNumber']
-        expireDate=self.purchaseInfo['expireDate']
-        record={"purchaseID":purchaseID,"user":user, "movie name":movie, "movie price": moviePrice, "food": foodList,"food price": foodPrice,"theatreName":theatreName,"cardNumver":cardNumber}
+        cardNumber=purchaseInfo['cardNumber']
+        expireDate=purchaseInfo['expireDate']
+        record={"purchaseID":purchaseID,"user":user, "movie name":movie, "movie price": moviePrice, "food": foodList,"theatreName":theatreName,"cardNumver":cardNumber}
         self.purchase_collection.insert_one(record)
 
     def findAllPurchase(self,username):

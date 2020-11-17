@@ -6,7 +6,7 @@ class DebitCard(Payment):
         self.expireDate = expireDate
 
     def validate(self):
-        if self.cardNumber[0] != 1:
+        if self.cardNumber[0] != '1':
             return 0
             print("Invalid Debit Card Number. Requires 1 as first number.")
         else:

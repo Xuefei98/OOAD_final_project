@@ -35,6 +35,14 @@ response = requests.post(preferences_url, params={'genre': 'Action', 'maxDistanc
 print("Update Preference Response is", response)
 print(json.loads(response.text))
 
+
+#user raises request to update their preferences
+purchase_url = addr + '/purchase'
+response = requests.post(purchase_url, params={'cardNumber': '100000000000000', 'securityCode': '3333', 'expireDate': '02/20' , 'cardType':'debit'})
+print("Update purchase Response is", response)
+print(json.loads(response.text))
+
+
 #user ends his session
 signOut_url = addr + '/signOut'
 response = requests.post(signOut_url)

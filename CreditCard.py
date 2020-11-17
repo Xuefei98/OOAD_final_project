@@ -6,7 +6,7 @@ class CreditCard(Payment):
         self.expireDate = expireDate
 
     def validate(self):
-        if self.cardNumber[0] != 0:
+        if self.cardNumber[0] != '0':
             return 0
             print("Invalid Credit Card Number. Requires 0 as first number.")
         else:
