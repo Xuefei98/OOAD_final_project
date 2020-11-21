@@ -38,7 +38,7 @@ class Controller:
     def add_url_rules(self):
         app.add_url_rule('/', 'index', lambda: controller2.index())
         app.add_url_rule('/login', 'login', lambda: controller2.login(), methods=['POST'])
-        app.add_url_rule('/signUp', 'signUp', lambda: controller2.signUp(), methods=['POST'])
+        app.add_url_rule('/signUp', 'signUp', lambda: controller2.signUp(), methods=['POST','GET'])
         app.add_url_rule('/signOut', 'signOut', lambda: controller2.signOut(), methods=['POST'])
         app.add_url_rule('/shows', 'shows', lambda: controller2.shows(), methods=['POST', 'GET'])
         app.add_url_rule('/show', 'show', lambda: controller2.show(), methods=['POST', 'GET'])
@@ -48,27 +48,29 @@ class Controller:
         app.add_url_rule('/updatePreferences', 'updatePreferences', lambda: controller2.updatePreferences(), methods=['POST'])
 
     def index(self):
-        return "Drive and Reel"
+        return render_template('home.html')
 
     def login(self):
         if request.method == 'POST':
             s = Context(SignIn())
             params = dict()
-            params['username'] = request.args.get('username')
-            params['password'] = request.args.get('password')
+            params['username'] = request.form.get('username')
+            params['password'] = request.form.get('password')
             self.session = s.getStrategy.handleActivity(self.session, self.model, params) 
             return redirect(url_for('shows'))
         return "logged in"
 
     def signUp(self):
+        if request.method == 'GET':
+           return render_template('signup.html') 
         if request.method == 'POST':
             s = Context(SignUp())
             params = dict()
-            params['email'] = request.args.get('email')
-            params['password'] = request.args.get('password')
-            params['genre'] = request.args.get('genre')
-            params['maxDistance'] = request.args.get('maxDistance')
-            params['maxPrice'] = request.args.get('maxPrice')
+            params['email'] = request.form.get('username')
+            params['password'] = request.form.get('password')
+            params['genre'] = request.form.get('genre')
+            params['maxDistance'] = request.form.get('maxDistance')
+            params['maxPrice'] = request.form.get('maxPrice')
             self.session = s.getStrategy.handleActivity(self.session, self.model, params)
             return redirect(url_for('shows'))
         return "logged in"

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<title>
+    Drive And Reel
+</title>
+
+</head>
+<body>
+	<div class="page-header">
+		<div class="row">
+			<div class="col-sm-4">
+				<img src="./static/images/home.png" class="img-rounded" alt="Cinque Terre">	
+			</div>	
+			<div class="col-sm-4">
+				<h1>Wheel <span style="color:#FF0000">And </span> Reel</h1>
+				<div id="tagline"><h5>Book Now to watch your favorite movies!</h5></div>
+			</div>	
+		</div>
+	</div>
+    <div class="row">
+		<div class="col-sm-3"> </div>
+		<div class="col-sm-6">
+            <form  action="http://127.0.0.1:5000/signUp" method="POST">
+				<div class="form-group">
+					<label for="username">Username:</label>
+					<input type="username" name="username" class="form-control" id="username">
+				</div>
+				<div class="form-group">
+					<label for="password">Password:</label>
+					<input type="password" name="password" class="form-control" id="password">
+				</div>
+				<div class="form-group">
+					<label for="genre">Genre:</label>
+					<input type="genre" name="genre" class="form-control" id="genre">
+				</div>
+				<div class="form-group">
+					<label for="maxDistance">Maximum Distance:</label>
+					<input type="maxDistance" name="maxDistance" class="form-control" id="maxDistance">
+				</div>
+				<div class="form-group">
+					<label for="maxPrice">Maximum Price:</label>
+					<input type="maxPrice" name="maxPrice" class="form-control" id="maxPrice">
+				</div>
+				<button style="background-color: #FF0000;" type="Submit" class="btn btn-default">SignUp</button>
+            </form>
+		</div>
+		<div class="col-sm-3"> </div>	
+    </div>
