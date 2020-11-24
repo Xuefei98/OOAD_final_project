@@ -45,7 +45,7 @@ class Controller:
         app.add_url_rule('/dashboard', 'dashboard', lambda: controller2.dashboard(), methods=['POST', 'GET'])
         app.add_url_rule('/purchase', 'purchase', lambda: controller2.purchase(), methods=['POST', 'GET'])
         app.add_url_rule('/cancelPurchase', 'cancelPurchase', lambda: controller2.cancelPurchase(), methods=['POST', 'GET'])
-        app.add_url_rule('/updatePreferences', 'updatePreferences', lambda: controller2.updatePreferences(), methods=['POST'])
+        app.add_url_rule('/updatePreferences', 'updatePreferences', lambda: controller2.updatePreferences(), methods=['POST','GET'])
 
     def index(self):
         return render_template('home.html')
@@ -56,13 +56,14 @@ class Controller:
             params = dict()
             params['username'] = request.form.get('username')
             params['password'] = request.form.get('password')
-            self.session = s.getStrategy.handleActivity(self.session, self.model, params) 
-            return redirect(url_for('shows'))
+            self.session = s.getStrategy.handleActivity(self.session, self.model, params)
+            return redirect(url_for('dashboard'))
+            #return redirect(url_for('shows'))
         return "logged in"
 
     def signUp(self):
         if request.method == 'GET':
-           return render_template('signup.html') 
+           return render_template('signup.html')
         if request.method == 'POST':
             s = Context(SignUp())
             params = dict()
@@ -72,7 +73,8 @@ class Controller:
             params['maxDistance'] = request.form.get('maxDistance')
             params['maxPrice'] = request.form.get('maxPrice')
             self.session = s.getStrategy.handleActivity(self.session, self.model, params)
-            return redirect(url_for('shows'))
+            return redirect(url_for('dashboard'))
+            #return redirect(url_for('shows'))
         return "logged in"
 
     def dashboard(self):
@@ -87,14 +89,16 @@ class Controller:
             d['purchaseList'] = []
             for item in self.session['user'].purchaseList:
                 d['purchaseList'].append(item.getPurchaseDetails())
-            return jsonify(d)
+            return render_template('dashboard.html', userInfo=d)
         return "dashboard"
 
     def updatePreferences(self):
+        if request.method == 'GET':
+            return render_template('preferences.html')
         if request.method == 'POST':
-            newGenre= request.args.get('genre')
-            newDistance= request.args.get('maxDistance')
-            newPrice= request.args.get('maxPrice')
+            newGenre = request.form.get('genre')
+            newDistance = request.form.get('maxDistance')
+            newPrice = request.form.get('maxPrice')
             print(newGenre)
             self.session['user']= self.model.updatePreferences(self.session['username'],newGenre,newDistance,newPrice)
             return redirect(url_for('dashboard'))

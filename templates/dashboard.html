@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<title>
+    Drive And Reel
+</title>
+
+</head>
+<body>
+	<div class="page-header">
+		<div class="row">
+			<div class="col-sm-4">
+				<img src="./static/images/home.png" class="img-rounded" alt="Cinque Terre">	
+			</div>	
+			<div class="col-sm-4">
+				<h1>Wheel <span style="color:#FF0000">And </span> Reel</h1>
+				<div id="tagline"><h5>Book Now to watch your favorite movies!</h5></div>
+			</div>	
+		</div>
+	</div>
+
+    <div class="row">
+		<div class="col-sm-4"> </div>
+		<div class="col-sm-4">
+			<h2>My Profile</h2>
+			<h4>Current Preference</h4>
+			<dl>
+				<dt>Max Distance</dt>
+				{% if userInfo.maxDistance %}
+					<dd>{{userInfo.maxDistance}}</dd>
+				{% endif %}
+				<dt>Genre</dt>
+				{% if userInfo.genre %}
+					<dd>{{userInfo.genre}}</dd>
+				{% endif %}
+				<dt>Max Price</dt>
+				{% if userInfo.maxPrice %}
+					<dd>{{userInfo.maxPrice}}</dd>
+				{% endif %}
+			</dl>
+			<button onclick="location.href='updatePreferences'" style="background-color: #FF0000;" type="reset" class="btn btn-default">Update</button>
+		</div>
+		<div class="col-sm-3"> </div>	
+    </div>
+
+    <div class="row">
+		<div class="col-sm-4"> </div>
+		<div class="col-sm-4">
+			<h2>My Purchase</h2>
+			<dl>
+				{% if userInfo.purchaseList %}
+					{% for purchase in userInfo.purchaseList %}
+						<dt>purchase.purchaseID</dt>
+						<dt>purchase.movieName</dt>
+						<dt>purchase.theaterName</dt>
+						<button style="background-color: #FF0000;" type="Submit" class="btn btn-default">Cancel</button>
+					{% endfor %}
+				{% endif %}
+			</dl>
+		</div>
+		<div class="col-sm-3"> </div>
+    </div>
+
+
