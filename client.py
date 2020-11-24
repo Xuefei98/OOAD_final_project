@@ -4,13 +4,13 @@ import json
 import sys
 import os
 addr = 'http://127.0.0.1:5000'
-"""
+
 #user registers
 signup_url = addr + '/signUp'
 response = requests.post(signup_url, params={"email": "john@gmail.com", "password": "password", "genre": "Action", "maxDistance": 2, "maxPrice": 30})
 print("Response is", response)
 print(json.loads(response.text))
-"""
+
 #user raises a login request and begins the session
 login_url = addr + '/login'
 response = requests.post(login_url, params={'username': 'john@gmail.com', 'password': 'password'})

@@ -20,6 +20,16 @@
 			<div class="col-sm-4">
 				<h1>Wheel <span style="color:#FF0000">And </span> Reel</h1>
 				<div id="tagline"><h5>Book Now to watch your favorite movies!</h5></div>
+			</div>
+			<div class="col-sm-2">	
+				<form method="get" action="/shows">
+					<button style="background-color: #FF0000;" type="submit">Shows</button>
+				</form>
+			</div>	
+			<div class="col-sm-2">
+				<form method="get" action="/signOut">
+					<button style="background-color: #FF0000;" type="submit">SignOut</button>
+				</form>
 			</div>	
 		</div>
 	</div>
@@ -28,7 +38,7 @@
 		<div class="col-sm-4"> </div>
 		<div class="col-sm-4">
 			<h2>My Profile</h2>
-			<h4>Current Preference</h4>
+			<h4>Current Preferences</h4>
 			<dl>
 				<dt>Max Distance</dt>
 				{% if userInfo.maxDistance %}
@@ -51,7 +61,7 @@
     <div class="row">
 		<div class="col-sm-4"> </div>
 		<div class="col-sm-4">
-			<h2>My Purchase</h2>
+			<h2>My Purchase History</h2>
 			<dl>
 				{% if userInfo.purchaseList %}
 					{% for purchase in userInfo.purchaseList %}

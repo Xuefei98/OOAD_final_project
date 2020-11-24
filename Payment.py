@@ -1,4 +1,3 @@
-
 ##-- Template Pattern --##
 class Payment:
 

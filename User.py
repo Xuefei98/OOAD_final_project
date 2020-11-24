@@ -1,3 +1,4 @@
+##-- Class to store and fetch user details of user object --##
 from Preference import Preference
 from Purchase import Purchase
 class User:

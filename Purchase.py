@@ -1,3 +1,4 @@
+##-- Class to store and fetch purchase details of purchase object --##
 class Purchase:
     def __init__(self, purchaseID, movieName, theaterName, moviePrice, foodList):
         self.purchaseID = purchaseID

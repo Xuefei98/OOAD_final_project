@@ -34,22 +34,22 @@ class Controller:
             Controller.instance = self
             Controller.model = Model()
             Controller.session = dict()
-
+    ##-- Add API end points --##        
     def add_url_rules(self):
         app.add_url_rule('/', 'index', lambda: controller2.index())
         app.add_url_rule('/login', 'login', lambda: controller2.login(), methods=['POST'])
         app.add_url_rule('/signUp', 'signUp', lambda: controller2.signUp(), methods=['POST','GET'])
-        app.add_url_rule('/signOut', 'signOut', lambda: controller2.signOut(), methods=['POST'])
+        app.add_url_rule('/signOut', 'signOut', lambda: controller2.signOut(), methods=['GET'])
         app.add_url_rule('/shows', 'shows', lambda: controller2.shows(), methods=['POST', 'GET'])
         app.add_url_rule('/show', 'show', lambda: controller2.show(), methods=['POST', 'GET'])
         app.add_url_rule('/dashboard', 'dashboard', lambda: controller2.dashboard(), methods=['POST', 'GET'])
         app.add_url_rule('/purchase', 'purchase', lambda: controller2.purchase(), methods=['POST', 'GET'])
         app.add_url_rule('/cancelPurchase', 'cancelPurchase', lambda: controller2.cancelPurchase(), methods=['POST', 'GET'])
         app.add_url_rule('/updatePreferences', 'updatePreferences', lambda: controller2.updatePreferences(), methods=['POST','GET'])
-
+    ##-- Render landing index page --##    
     def index(self):
         return render_template('home.html')
-
+    ##-- Login controller function --##
     def login(self):
         if request.method == 'POST':
             ##-- Strategy Pattern --##
@@ -58,10 +58,9 @@ class Controller:
             params['username'] = request.form.get('username')
             params['password'] = request.form.get('password')
             self.session = s.getStrategy.handleActivity(self.session, self.model, params)
-            #return redirect(url_for('dashboard'))
             return redirect(url_for('shows'))
         return "logged in"
-
+    ##-- Sign Up controller function --##
     def signUp(self):
         if request.method == 'GET':
            return render_template('signup.html')
@@ -75,10 +74,9 @@ class Controller:
             params['maxDistance'] = request.form.get('maxDistance')
             params['maxPrice'] = request.form.get('maxPrice')
             self.session = s.getStrategy.handleActivity(self.session, self.model, params)
-            #return redirect(url_for('dashboard'))
             return redirect(url_for('shows'))
         return "logged in"
-
+    ##-- Dashboard controller function --##
     def dashboard(self):
         if request.method == 'GET':
             d = dict()
@@ -93,7 +91,7 @@ class Controller:
                 d['purchaseList'].append(item.getPurchaseDetails())
             return render_template('dashboard.html', userInfo=d)
         return "dashboard"
-
+    ##-- Update Preferences controller function --##
     def updatePreferences(self):
         if request.method == 'GET':
             return render_template('preferences.html')
@@ -105,7 +103,7 @@ class Controller:
             self.session['user']= self.model.updatePreferences(self.session['username'],newGenre,newDistance,newPrice)
             return redirect(url_for('dashboard'))
         return "updated page"
-
+    ##-- Get currently playing shows matching preferences controller function --##
     def shows(self):
         res= []
         if request.method == 'GET':
@@ -117,7 +115,7 @@ class Controller:
                 d['price'] = item.getShowDetails()['price']
                 res.append(d)
         return jsonify(res)
-
+    ##--- Book the show with food add-ons controller function --##
     def show(self):
         res= []
         if request.method == 'GET':
@@ -169,7 +167,7 @@ class Controller:
                 sum+= item['foodQuantity']*item['foodprice']
             total=sum+ int(num_slots) * self.purchaseInfo['moviePrice']
             return jsonify(total)
-
+    ##-- Payment controller function --##
     def purchase(self):
         if request.method == 'POST':
             cardNumber = request.args.get('cardNumber')
@@ -189,7 +187,7 @@ class Controller:
                 print("Sorry your card did not go through the system")
             return redirect(url_for('dashboard'))
         return "updated the purchase info"
-
+    ##-- Cancel previous purchase controller function --##
     def cancelPurchase(self):
         if request.method == 'POST':
             choose_index = int(request.args.get('index'))
@@ -197,7 +195,7 @@ class Controller:
             self.model.deletePurchaseRecord(purchaseID)
             return redirect(url_for('dashboard'))
         return "cancel Purchase"
-
+    ##-- Sign Out controller function --##
     def signOut(self):
         self.session= None
         self.session= dict()

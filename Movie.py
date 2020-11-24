@@ -1,3 +1,4 @@
+##-- Class to store and fetch movie details of movie object --##
 class Movie:
     def __init__(self, movieName, duration, genre, movieid):
         self.movieid = movieid

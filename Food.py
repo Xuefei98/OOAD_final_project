@@ -1,3 +1,4 @@
+##-- Class to store and fetch food details of food object --##
 class Food:
     def __init__(self, foodid, name, price):
         self.foodid = foodid

@@ -4,7 +4,7 @@ from Strategy import Strategy
 ##-- Strategy Pattern --##
 class Context():
     """
-    The Context defines the interface of interest to clients.
+    The Context provides Signin and Signup interfaces to the users.
     """
 
     def __init__(self, strategy: Strategy) -> None:

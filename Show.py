@@ -1,3 +1,4 @@
+##-- Class to store and fetch show details of show object --##
 from Movie import Movie
 from Theater import Theater
 class Show:

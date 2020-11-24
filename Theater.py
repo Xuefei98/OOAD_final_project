@@ -1,3 +1,4 @@
+##-- Class to store and fetch theater details of theater object --##
 from Food import Food
 class Theater:
     def __init__(self, theaterName, distance, theaterid, foodList):

@@ -1,3 +1,4 @@
+##-- Class to store and fetch preference details of preference object --##
 class Preference:
     def __init__(self, genre, maxDistance, maxPrice):
         self.genre = genre

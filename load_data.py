@@ -29,7 +29,7 @@ class Model:
         foodList = record['foodList']
         doc = {"theaterid": theaterid, "name": name, "distance": distance, "isFoodAvailable": isFoodAvailable, "foodList": foodList}
         self.theaters_collection.insert_one(doc)   
-   ###--- Adding New Food to the Database ---###
+   ###--- Adding New Food in theaters to the Database ---###
     def add_Food(self,record):
         foodid = record['foodid']
         name = record['name']
@@ -46,7 +46,7 @@ class Model:
         availableSlots = record['availableSlots']
         doc = {"showid": showid, "theaterid": theaterid, "movieid": movieid, "price": price, "availableSlots": availableSlots}
         self.shows_collection.insert_one(doc)       
-   ###--- Adding New Shows to the Database ---###
+   ###--- Adding New Users to the Database ---###
     def add_User(self,record):
         email = record['email']
         password = record['password']

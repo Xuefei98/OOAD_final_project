@@ -27,16 +27,14 @@ class Model:
             return record['password']
         else:
             return None
-        
+    ###--- Fetching all Purchases of a User ---###        
     def findAllPurchase(self,username):
         records = self.purchase_collection.find({"user": username})
         return records    
-
+    ###--- Fetching Details of a User ---### 
     def getUser(self, email):
        record = self.users_collection.find_one({"email":email})
        purchaseRecords = self.findAllPurchase(email)
-       print('purchase')
-       #print(purchaseRecords[0]['foodList'])
        record['purchaseList'] = [] 
        for item in purchaseRecords:
            e = dict()
@@ -48,7 +46,7 @@ class Model:
            record['purchaseList'].append(e)      
        self.user = User(record['email'], record['genre'], record['maxDistance'], record['maxPrice'],record['purchaseList'])
        return self.user
-
+    ###--- Adding New Users to the Database ---###   
     def addUser(self,record):
         email = record['email']
         password = record['password']
@@ -57,7 +55,7 @@ class Model:
         maxPrice = record['maxPrice']
         doc = {"email": email, "password": password, "genre": genre, "maxDistance": int(maxDistance), "maxPrice": int(maxPrice)}
         self.users_collection.insert_one(doc)
-
+     ###--- Fetching currently playing shows matching user preferences ---###     
     def getShows(self, preference):
        recordList = [] 
        showsList = self.shows_collection.find({"price":{ "$lte" : preference['maxPrice']}})
@@ -87,7 +85,7 @@ class Model:
                        d['foodList'].append(e)    
                    recordList.append(Show(d))
        return recordList
-
+    ###--- Adding New Purchases to the Database ---### 
     def addPurchase(self,purchaseInfo):
         purchaseID=purchaseInfo['purchaseID']
         user=purchaseInfo['username']
@@ -98,11 +96,11 @@ class Model:
         cardNumber=purchaseInfo['cardNumber']
         record={"purchaseID":purchaseID,"user":user, "movieName":movieName, "moviePrice": moviePrice, "foodList": foodList,"theaterName":theaterName,"cardNumver":cardNumber}
         self.purchase_collection.insert_one(record)
-
+    ###--- Deleting Purchases from the Database ---### 
     def deletePurchaseRecord(self,purchaseID):
         self.purchase_collection.remove({"purchaseID":purchaseID})
         return "we delete a purchase record"
-
+    ###--- Updating user preferences in the Database ---###
     def updatePreferences(self, email, genre, maxDistance, maxPrice):
         self.users_collection.update({"email":email}, { "$set": {"genre": genre, "maxDistance": int(maxDistance), "maxPrice": int(maxPrice)}})
         return self.getUser(email)
