@@ -52,19 +52,21 @@ class Controller:
 
     def login(self):
         if request.method == 'POST':
+            ##-- Strategy Pattern --##
             s = Context(SignIn())
             params = dict()
             params['username'] = request.form.get('username')
             params['password'] = request.form.get('password')
             self.session = s.getStrategy.handleActivity(self.session, self.model, params)
-            return redirect(url_for('dashboard'))
-            #return redirect(url_for('shows'))
+            #return redirect(url_for('dashboard'))
+            return redirect(url_for('shows'))
         return "logged in"
 
     def signUp(self):
         if request.method == 'GET':
            return render_template('signup.html')
         if request.method == 'POST':
+            ##-- Strategy Pattern --##
             s = Context(SignUp())
             params = dict()
             params['email'] = request.form.get('username')
@@ -73,8 +75,8 @@ class Controller:
             params['maxDistance'] = request.form.get('maxDistance')
             params['maxPrice'] = request.form.get('maxPrice')
             self.session = s.getStrategy.handleActivity(self.session, self.model, params)
-            return redirect(url_for('dashboard'))
-            #return redirect(url_for('shows'))
+            #return redirect(url_for('dashboard'))
+            return redirect(url_for('shows'))
         return "logged in"
 
     def dashboard(self):
@@ -174,6 +176,7 @@ class Controller:
             securityCode = request.args.get('securityCode')
             expireDate = request.args.get('expireDate')
             cardType= request.args.get('cardType')
+            ##-- Template Pattern --##
             if cardType == "credit":
                 payPass = CreditCard(cardNumber,securityCode,expireDate).PaymentSummary()
             else:

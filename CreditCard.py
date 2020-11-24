@@ -1,4 +1,6 @@
 from Payment import Payment
+
+##-- Template Pattern --##
 class CreditCard(Payment):
     def __init__(self, cardNumber, securityCode,expireDate):
         self.cardNumber = cardNumber
