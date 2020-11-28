@@ -114,7 +114,8 @@ class Controller:
                 d['movieName'] = item.getShowDetails()['movie'].getMovieDetails()['movieName']
                 d['price'] = item.getShowDetails()['price']
                 res.append(d)
-        return jsonify(res)
+        # return jsonify(res)
+        return render_template('shows.html', userShows=res)
     ##--- Book the show with food add-ons controller function --##
     def show(self):
         res= []
@@ -136,7 +137,7 @@ class Controller:
                 e['foodprice'] = foodItem.getFoodDetails()['foodprice'] 
                 e['foodQuantity'] = 0
                 d['foodList'].append(e)
-            #randomlize a purchase id
+            #randomize a purchase id
             #add movie and food list to the database
             self.purchaseID=random.randint(10000,900000)
             self.purchaseInfo=dict()
@@ -148,7 +149,8 @@ class Controller:
             self.purchaseInfo['foodList']=[]
             self.purchaseInfo['theaterName']=d['theaterName']
             res.append(d)
-            return jsonify(res)
+            # return jsonify(res)
+            return render_template('show.html', showInfo=res)
 
         if request.method == 'POST':
             num_slots = request.args.get('num_slots')
