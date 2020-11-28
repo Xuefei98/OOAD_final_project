@@ -37,21 +37,21 @@
 		<div class="col-sm-2"> </div>
 		<div class="col-sm-8">
             <h2 style="text-align:center">Currently Playing Shows</h2>
-            <div class="col-sm-6">
+            <form action="http://127.0.0.1:5000/shows" method="GET">
                 <dl>
                     {% for item in userShows %}
-                        {% if showInfo.theaterName %}
+                        {% if userShows.theaterName %}
                             <dt>{{ userShows.theaterName }}</dt>
-                                {% if showInfo.movieName %}
+                                {% if userShows.movieName %}
                                     <dd>{{ userShows.movieName }}</dd>
-                                { % endif %}
-                                {% if showInfo.price %}
+                                {% endif %}
+                                {% if userShows.price %}
                                     <dd>{{ userShows.price }}</dd>
                                 {% endif %}
                             <button onclick="location.href='show'" style="background-color: #FF0000;" type="submit" class="btn btn-default">Book Show</button>
                     {% endfor %}
                 </dl>
-            </div>
+            </form>
 		</div>
 		<div class="col-sm-2"> </div>	
     </div>
