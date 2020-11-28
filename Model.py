@@ -43,6 +43,7 @@ class Model:
            e['theaterName'] = item['theaterName']
            e['moviePrice'] = item['moviePrice'] 
            e['foodList'] = item['foodList']
+           e['movieSlots'] = item['movieSlots']
            record['purchaseList'].append(e)      
        self.user = User(record['email'], record['genre'], record['maxDistance'], record['maxPrice'],record['purchaseList'])
        return self.user
@@ -91,10 +92,11 @@ class Model:
         user=purchaseInfo['username']
         movieName=purchaseInfo['movieName']
         moviePrice=purchaseInfo['moviePrice']
+        movieSlots=purchaseInfo['slots']
         foodList=purchaseInfo['foodList']
         theaterName=purchaseInfo['theaterName']
         cardNumber=purchaseInfo['cardNumber']
-        record={"purchaseID":purchaseID,"user":user, "movieName":movieName, "moviePrice": moviePrice, "foodList": foodList,"theaterName":theaterName,"cardNumver":cardNumber}
+        record={"purchaseID":purchaseID,"user":user, "movieName":movieName, "moviePrice": moviePrice, "movieSlots": movieSlots, "foodList": foodList,"theaterName":theaterName,"cardNumver":cardNumber}
         self.purchase_collection.insert_one(record)
     ###--- Deleting Purchases from the Database ---### 
     def deletePurchaseRecord(self,purchaseID):

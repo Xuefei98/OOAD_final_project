@@ -108,11 +108,14 @@ class Controller:
         res= []
         if request.method == 'GET':
             self.showsRes= self.model.getShows(self.session['user'].preferenceList.getPreferences())
+            i=0
             for item in self.showsRes:
                 d = dict()
                 d['theaterName'] = item.getShowDetails()['theater'].getTheaterDetails()['theaterName']
                 d['movieName'] = item.getShowDetails()['movie'].getMovieDetails()['movieName']
                 d['price'] = item.getShowDetails()['price']
+                d['index'] = i
+                i= i+1
                 res.append(d)
         # return jsonify(res)
         return render_template('shows.html', userShows=res)
@@ -130,6 +133,8 @@ class Controller:
             d['movieName'] = item.getShowDetails()['movie'].getMovieDetails()['movieName']
             d['genre'] = item.getShowDetails()['movie'].getMovieDetails()['genre']
             d['price'] = item.getShowDetails()['price']
+            d['slots'] = 0
+            d['totalCost'] = 0
             d['foodList'] = []
             for foodItem in item.getShowDetails()['theater'].getTheaterDetails()['foodList']:
                 e = dict()
@@ -145,19 +150,21 @@ class Controller:
             self.purchaseInfo['username']=self.session['username']
             self.purchaseInfo['movieName']=d['movieName']
             self.purchaseInfo['moviePrice']=d['price']
+            self.purchaseInfo['slots']=d['slots']
             self.purchaseInfo['availableFoodList']=d['foodList']
             self.purchaseInfo['foodList']=[]
             self.purchaseInfo['theaterName']=d['theaterName']
+            self.purchaseInfo['totalCost']=d['totalCost']
             res.append(d)
             # return jsonify(res)
-            return render_template('show.html', showInfo=res)
+            return render_template('show.html', showInfo=d)
 
         if request.method == 'POST':
-            num_slots = request.args.get('num_slots')
+            self.purchaseInfo['slots'] = request.form.get('slots')
             i=0
             for item in self.purchaseInfo['availableFoodList']:
                 print(item)
-                item['foodQuantity'] = int(request.args.get('food_quantity_list:'+str(i)))
+                item['foodQuantity'] = int(request.form.get(item['foodName']))
                 if(item['foodQuantity']>0):
                     e=dict()
                     e['foodName']=item['foodName']
@@ -167,15 +174,19 @@ class Controller:
             sum= 0
             for item in self.purchaseInfo['availableFoodList']:
                 sum+= item['foodQuantity']*item['foodprice']
-            total=sum+ int(num_slots) * self.purchaseInfo['moviePrice']
-            return jsonify(total)
+            self.purchaseInfo['totalCost']=sum+ int(self.purchaseInfo['slots']) * self.purchaseInfo['moviePrice']
+            return redirect(url_for('purchase'))
     ##-- Payment controller function --##
     def purchase(self):
+        if request.method == 'GET':
+           d = dict() 
+           d['totalCost'] = self.purchaseInfo['totalCost']
+           return render_template('purchase.html', purchaseInfo=d)
         if request.method == 'POST':
-            cardNumber = request.args.get('cardNumber')
-            securityCode = request.args.get('securityCode')
-            expireDate = request.args.get('expireDate')
-            cardType= request.args.get('cardType')
+            cardNumber = request.form.get('cardNumber')
+            securityCode = request.form.get('securityCode')
+            expireDate = request.form.get('expireDate')
+            cardType= request.form.get('cardType')
             ##-- Template Pattern --##
             if cardType == "credit":
                 payPass = CreditCard(cardNumber,securityCode,expireDate).PaymentSummary()
@@ -188,7 +199,6 @@ class Controller:
             else:
                 print("Sorry your card did not go through the system")
             return redirect(url_for('dashboard'))
-        return "updated the purchase info"
     ##-- Cancel previous purchase controller function --##
     def cancelPurchase(self):
         if request.method == 'POST':

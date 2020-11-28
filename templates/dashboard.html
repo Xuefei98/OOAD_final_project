@@ -65,9 +65,9 @@
 			<dl>
 				{% if userInfo.purchaseList %}
 					{% for purchase in userInfo.purchaseList %}
-						<dt>purchase.purchaseID</dt>
-						<dt>purchase.movieName</dt>
-						<dt>purchase.theaterName</dt>
+						<dt>{{purchase.purchaseID}}</dt>
+						<dt>{{purchase.movieName}}</dt>
+						<dt>{{purchase.theaterName}}</dt>
 						<button style="background-color: #FF0000;" type="Submit" class="btn btn-default">Cancel</button>
 					{% endfor %}
 				{% endif %}

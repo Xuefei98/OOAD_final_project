@@ -48,7 +48,7 @@
                             {% if item.price %}
                                 <dd>${{ item.price }}</dd>
                             {% endif %}
-                        <button onclick="location.href='show'" style="background-color: #FF0000;" type="submit" class="btn btn-default">Book Show</button>
+                        <button onclick="location.href='show?index={{ item.index }}'" style="background-color: #FF0000;" type="submit" class="btn btn-default">Book Show</button>
                     {% endif %}
                 {% endfor %}
             </dl>

@@ -29,6 +29,7 @@
             <h1 style="text-align:center">Payment</h1>
             <form action="http://127.0.0.1:5000/purchase" method="POST">
                 <h5><b>Card Type</b></h5>
+				<div> Total Cost: {{purchaseInfo.totalCost}}</div>
                 <div class="radio">
                     <label for="cardType"><input type="radio" name="cardType" id="cardType" value="credit" checked>Credit</label>
                 </div>

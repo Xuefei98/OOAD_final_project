@@ -11,5 +11,5 @@ class User:
         self.preferenceList = Preference(genre, maxDistance, maxPrice)
         res= []
         for item in purchaseList:
-            res.append(Purchase(item['purchaseID'],item['movieName'],item['theaterName'],item['moviePrice'],item['foodList']))
+            res.append(Purchase(item['purchaseID'],item['movieName'],item['theaterName'],item['moviePrice'],item['movieSlots'],item['foodList']))
         self.purchaseList= res    
