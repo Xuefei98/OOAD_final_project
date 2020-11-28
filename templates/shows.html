@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<title>
+    Drive And Reel
+</title>
+
+</head>
+<body>
+	<div class="page-header">
+		<div class="row">
+			<div class="col-sm-4">
+				<img src="./static/images/home.png" class="img-rounded" alt="Cinque Terre">	
+			</div>	
+			<div class="col-sm-4" style="text-align:center">
+				<h1>Wheel <span style="color:#FF0000">And </span> Reel</h1>
+				<div id="tagline"><h5>Book Now to watch your favorite movies!</h5></div>
+            </div>	
+            <div class="col-sm-2">	
+				<form method="get" action="/dashboard">
+					<button style="background-color: #FF0000;" type="submit">My Dashboard</button>
+				</form>
+			</div>	
+			<div class="col-sm-2">
+				<form method="get" action="/signOut">
+					<button style="background-color: #FF0000;" type="submit">Sign Out</button>
+				</form>
+			</div>
+		</div>
+	</div>
+    <div class="row">
+		<div class="col-sm-2"> </div>
+		<div class="col-sm-8">
+            <h2 style="text-align:center">Currently Playing Shows</h2>
+            <div class="col-sm-6">
+                <dl>
+                    {% for item in userShows %}
+                        {% if showInfo.theaterName %}
+                            <dt>{{ userShows.theaterName }}</dt>
+                                {% if showInfo.movieName %}
+                                    <dd>{{ userShows.movieName }}</dd>
+                                { % endif %}
+                                {% if showInfo.price %}
+                                    <dd>{{ userShows.price }}</dd>
+                                {% endif %}
+                            <button onclick="location.href='show'" style="background-color: #FF0000;" type="submit" class="btn btn-default">Book Show</button>
+                    {% endfor %}
+                </dl>
+            </div>
+		</div>
+		<div class="col-sm-2"> </div>	
+    </div>
