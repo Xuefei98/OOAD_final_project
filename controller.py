@@ -59,6 +59,7 @@ class Controller:
             params['password'] = request.form.get('password')
             self.session = s.getStrategy.handleActivity(self.session, self.model, params)
             return redirect(url_for('shows'))
+            #return redirect(url_for('updatePreferences'))
         return "logged in"
     ##-- Sign Up controller function --##
     def signUp(self):
@@ -75,6 +76,7 @@ class Controller:
             params['maxPrice'] = request.form.get('maxPrice')
             self.session = s.getStrategy.handleActivity(self.session, self.model, params)
             return redirect(url_for('shows'))
+            #return redirect(url_for('updatePreferences'))
         return "logged in"
     ##-- Dashboard controller function --##
     def dashboard(self):
@@ -201,12 +203,12 @@ class Controller:
             return redirect(url_for('dashboard'))
     ##-- Cancel previous purchase controller function --##
     def cancelPurchase(self):
-        if request.method == 'POST':
-            choose_index = int(request.args.get('index'))
-            purchaseID= self.session['user'].purchaseList[choose_index].getPurchaseDetails()['purchaseID']
+        if request.method == 'GET':
+            purchaseID = int(request.args.get('index'))
             self.model.deletePurchaseRecord(purchaseID)
             return redirect(url_for('dashboard'))
         return "cancel Purchase"
+
     ##-- Sign Out controller function --##
     def signOut(self):
         self.session= None

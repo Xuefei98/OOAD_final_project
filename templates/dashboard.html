@@ -68,7 +68,7 @@
 						<dt>{{purchase.purchaseID}}</dt>
 						<dt>{{purchase.movieName}}</dt>
 						<dt>{{purchase.theaterName}}</dt>
-						<button style="background-color: #FF0000;" type="Submit" class="btn btn-default">Cancel</button>
+						<button onclick="location.href='cancelPurchase?index={{ purchase.purchaseID }}'"style="background-color: #FF0000;" type="Submit" class="btn btn-default">Cancel</button>
 					{% endfor %}
 				{% endif %}
 			</dl>
