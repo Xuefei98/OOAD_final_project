@@ -23,19 +23,24 @@
             </div>	
             <div class="col-sm-2">	
 				<form method="get" action="/dashboard">
-					<button style="background-color: #FF0000;" type="submit">My Dashboard</button>
+					<button style="background-color: #FF0000;" class="btn btn-default" type="submit">My Dashboard</button>
 				</form>
 			</div>	
 			<div class="col-sm-2">
 				<form method="get" action="/signOut">
-					<button style="background-color: #FF0000;" type="submit">Sign Out</button>
+					<button style="background-color: #FF0000;" class="btn btn-default" type="submit">Sign Out</button>
 				</form>
 			</div>
 		</div>
 	</div>
     <div class="row">
-		<div class="col-sm-2"> </div>
-		<div class="col-sm-8">
+		<div class="col-sm-2"></div>
+		<div class="col-sm-2">
+			<br></br>
+			<br></br>
+			<img src="./static/images/purchase.png" class="img-rounded" alt="Cinque Terre">	
+		</div>
+		<div class="col-sm-4">
 			<form action="http://127.0.0.1:5000/show" method="POST">
             <h2 style="text-align:center">Book my show</h2>
             <div class="form-group">
@@ -53,8 +58,10 @@
 					</dt>	
                 {% endfor %}
 			</dl>
-			<button style="background-color: #FF0000;" type="Submit" class="btn btn-default">Purchase</button>	
+			<button style="background-color: #FF0000;" type="Submit" class="btn btn-default">Purchase</button>
+			<br></br>
+			<br></br>	
 			</form>
 		</div>
-		<div class="col-sm-2"> </div>	
+		<div class="col-sm-4"> </div>	
     </div>

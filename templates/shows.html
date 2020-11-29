@@ -23,22 +23,25 @@
             </div>	
             <div class="col-sm-2">	
 				<form method="get" action="/dashboard">
-					<button style="background-color: #FF0000;" type="submit">My Dashboard</button>
+					<button style="background-color: #FF0000;" class="btn btn-default" type="submit">My Dashboard</button>
 				</form>
 			</div>	
 			<div class="col-sm-2">
 				<form method="get" action="/signOut">
-					<button style="background-color: #FF0000;" type="submit">Sign Out</button>
+					<button style="background-color: #FF0000;" class="btn btn-default" type="submit">Sign Out</button>
 				</form>
 			</div>
 		</div>
 	</div>
-    <div class="row">
+	<h2 style="text-align:center">Currently Playing Shows</h2>
+	<br></br>
+	<br></br>
+	<dl>
+    {% for item in userShows %}
+    <div class="row">		
 		<div class="col-sm-2"> </div>
-		<div class="col-sm-8">
-            <h2 style="text-align:center">Currently Playing Shows</h2>
-            <dl>
-                {% for item in userShows %}
+		<div class="col-sm-6">
+            
                     {% if item.theaterName %}
                         <dt>{{ item.theaterName }}</dt>
                             {% if item.movieName %}
@@ -47,11 +50,17 @@
                                 <div class="row"></div>
                             {% if item.price %}
                                 <dd>${{ item.price }}</dd>
-                            {% endif %}
-                        <button onclick="location.href='show?index={{ item.index }}'" style="background-color: #FF0000;" type="submit" class="btn btn-default">Book Show</button>
+                            {% endif %}                        
                     {% endif %}
-                {% endfor %}
-            </dl>
+					<hr></hr>
+                
+		</div>
+		<div class="col-sm-2">
+				<button onclick="location.href='show?index={{ item.index }}'" style="background-color: #FF0000;" type="submit" class="btn btn-default float-right">Book Show</button>
+				<br></br>
+				<br></br>
 		</div>
 		<div class="col-sm-2"> </div>	
     </div>
+	{% endfor %}
+            </dl>

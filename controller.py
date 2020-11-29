@@ -165,7 +165,7 @@ class Controller:
             self.purchaseInfo['slots'] = request.form.get('slots')
             i=0
             for item in self.purchaseInfo['availableFoodList']:
-                print(item)
+                print(request.form.get(item['foodName']))
                 item['foodQuantity'] = int(request.form.get(item['foodName']))
                 if(item['foodQuantity']>0):
                     e=dict()

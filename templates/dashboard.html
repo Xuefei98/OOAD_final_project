@@ -23,26 +23,31 @@
 			</div>
 			<div class="col-sm-2">	
 				<form method="get" action="/shows">
-					<button style="background-color: #FF0000;" type="submit">Shows</button>
+					<button style="background-color: #FF0000;" class="btn btn-default" type="submit">Shows</button>
 				</form>
 			</div>	
 			<div class="col-sm-2">
 				<form method="get" action="/signOut">
-					<button style="background-color: #FF0000;" type="submit">Sign Out</button>
+					<button style="background-color: #FF0000;" class="btn btn-default" type="submit">Sign Out</button>
 				</form>
 			</div>	
 		</div>
 	</div>
-
+	<div class= "row">
+		<div class="col-sm-1"></div>
+		<div class="col-sm-3"> 
+			<h2>My Preferences</h2>
+		</div>
+		<div class="col-sm-8"></div>
+	</div>
+	<br></br>
     <div class="row">
-		<div class="col-sm-4"> </div>
+		<div class="col-sm-4"></div>
 		<div class="col-sm-4">
-			<h2>My Profile</h2>
-			<h4>Current Preferences</h4>
 			<dl>
 				<dt>Max Distance</dt>
 				{% if userInfo.maxDistance %}
-					<dd>{{userInfo.maxDistance}}</dd>
+					<dd>{{userInfo.maxDistance}} miles</dd>
 				{% endif %}
 				<dt>Genre</dt>
 				{% if userInfo.genre %}
@@ -50,32 +55,45 @@
 				{% endif %}
 				<dt>Max Price</dt>
 				{% if userInfo.maxPrice %}
-					<dd>{{userInfo.maxPrice}}</dd>
+					<dd>{{userInfo.maxPrice}}$</dd>
 				{% endif %}
 			</dl>
+		</div>
+		<div class="col-sm-4"> 
 			<button onclick="location.href='updatePreferences'" style="background-color: #FF0000;" type="reset" class="btn btn-default">Update</button>
-		</div>
-		<div class="col-sm-3"> </div>	
+		</div>	
     </div>
-
-    <div class="row">
-		<div class="col-sm-4"> </div>
-		<div class="col-sm-4">
+	<br></br>
+	<hr></hr>
+	<div class= "row">
+		<div class="col-sm-1"></div>
+		<div class="col-sm-3"> 
 			<h2>My Purchase History</h2>
-			<dl>
-				{% if userInfo.purchaseList %}
-					{% for purchase in userInfo.purchaseList %}
-						<p><b>Purchase ID: </b>{{purchase.purchaseID}} </p>
-						<p><b>Movie Name: </b>{{purchase.movieName}} </p>
-						<p><b>Theater Name </b>{{purchase.theaterName}} </p>
-						<p><b>Movie Slots: </b>{{purchase.movieSlots}} </p>
-						<p><b>Food List: </b>{{purchase.foodList}} </p>
-						<button onclick="location.href='cancelPurchase?index={{ purchase.purchaseID }}'"style="background-color: #FF0000;" type="Submit" class="btn btn-default">Cancel</button>
-					{% endfor %}
-				{% endif %}
-			</dl>
 		</div>
-		<div class="col-sm-3"> </div>
-    </div>
+		<div class="col-sm-8"></div>
+	</div>
+	<br></br>
+	<dl>
+		{% if userInfo.purchaseList %}
+		{% for purchase in userInfo.purchaseList %}
+			<div class="row">
+				<div class="col-sm-2"></div>
+				<div class="col-sm-2">
+					<img src="./static/images/ticket.png" class="img-rounded" alt="Cinque Terre">	
+				</div>
+				<div class="col-sm-4">			
+					<p><b>Purchase ID: </b>{{purchase.purchaseID}} </p>
+					<p><b>Movie Name: </b>{{purchase.movieName}} </p>
+					<p><b>Theater Name: </b>{{purchase.theaterName}} </p>
+					<p><b>Movie Slots: </b>{{purchase.movieSlots}} </p>
+					<p><b>Food List: </b>{{purchase.foodList}} </p>						
+				</div>
+				<div class="col-sm-4"> 
+					<button onclick="location.href='cancelPurchase?index={{ purchase.purchaseID }}'"style="background-color: #FF0000;" type="Submit" class="btn btn-default">Cancel</button>
+				</div>
+			</div>
+		{% endfor %}
+		{% endif %}
+	</dl>
 
 
