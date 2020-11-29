@@ -78,6 +78,7 @@ class Model:
                    d['price'] = show['price']
                    d['foodList'] = []
                    for item in theater['foodList']:
+                       print(item)
                        fooditem = self.food_collection.find_one({"foodid": item})
                        e = dict()
                        e['foodName'] = fooditem['name']

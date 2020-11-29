@@ -80,3 +80,8 @@ m1.add_Shows({"showid": 2, "theaterid": 2, "movieid": 3, "price": 15, "available
  
 m1.add_User({"email": "john@gmail.com", "password": "password", "genre": "Action", "maxDistance": 2, "maxPrice": 30})
 """
+showid=62
+for movieid in range(0,9):
+    movieid=movieid*4+2
+    m1.add_Shows({"showid": showid, "theaterid":6, "movieid": movieid, "price": 25, "availableSlots": 30 })
+    showid=showid+1

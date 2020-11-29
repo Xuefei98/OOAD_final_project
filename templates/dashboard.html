@@ -65,9 +65,11 @@
 			<dl>
 				{% if userInfo.purchaseList %}
 					{% for purchase in userInfo.purchaseList %}
-						<dt>{{purchase.purchaseID}}</dt>
-						<dt>{{purchase.movieName}}</dt>
-						<dt>{{purchase.theaterName}}</dt>
+						<p><b>Purchase ID: </b>{{purchase.purchaseID}} </p>
+						<p><b>Movie Name: </b>{{purchase.movieName}} </p>
+						<p><b>Theater Name </b>{{purchase.theaterName}} </p>
+						<p><b>Movie Slots: </b>{{purchase.movieSlots}} </p>
+						<p><b>Food List: </b>{{purchase.foodList}} </p>
 						<button onclick="location.href='cancelPurchase?index={{ purchase.purchaseID }}'"style="background-color: #FF0000;" type="Submit" class="btn btn-default">Cancel</button>
 					{% endfor %}
 				{% endif %}
