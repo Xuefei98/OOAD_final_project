@@ -187,8 +187,10 @@ class Controller:
         if request.method == 'POST':
             cardNumber = request.form.get('cardNumber')
             securityCode = request.form.get('securityCode')
-            expireDate = request.form.get('expireDate')
             cardType= request.form.get('cardType')
+            expireMonth = request.form.get('expireMonth')
+            expireYear = request.form.get('expireYear')
+            expireDate = expireMonth + '/' + expireYear
             ##-- Template Pattern --##
             if cardType == "credit":
                 payPass = CreditCard(cardNumber,securityCode,expireDate).PaymentSummary()

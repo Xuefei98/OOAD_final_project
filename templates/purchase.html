@@ -33,7 +33,7 @@
 		<div class="col-sm-4">
             <h1 style="text-align:center">Payment</h1>
             <form action="http://127.0.0.1:5000/purchase" method="POST">
-				<h5> <b>Total Cost: </b> {{purchaseInfo.totalCost}}$</h5>
+				<h5> <b>Total Cost: </b> ${{purchaseInfo.totalCost}}</h5>
                 <h5><b>Card Type</b></h5>
                 <div class="radio">
                     <label for="cardType"><input type="radio" name="cardType" id="cardType" value="credit" checked>Credit</label>
@@ -46,13 +46,17 @@
                     <input type="text" name="cardNumber" class="form-control" id="cardNumber" maxlength="16">
 				</div>
 				<div class="form-group">
-					<label for="CVC">CVC</label>
-					<input type="securityCode" name="securityCode" class="form-control" id="securityCode" maxlength="3">
+					<label for="expireMonth">Exp Month</label>
+					<input type="text" name="expireMonth" class="form-control" id="expireMonth" placeholder="08" maxlength="2">
 				</div>
 				<div class="form-group">
-					<label for="expireDate">Expiration Date</label>
-					<input type="date" name="expireDate" class="form-control" id="expireDate">
-                </div>
+					<label for="expireYear">Exp Year</label>
+					<input type="text" name="expireYear" class="form-control" id="expireYear" placeholder="2024" maxlength="4">
+				</div>
+				<div class="form-group">
+					<label for="CVV	">CVV</label>
+					<input type="securityCode" name="securityCode" class="form-control" id="securityCode" maxlength="3" placeholder="123">
+				</div>
 				<button onclick="location.href='dashboard'" style="background-color: #FF0000;" type="reset" class="btn btn-default">Cancel</button>
 				<button style="background-color: #FF0000;" type="Submit" class="btn btn-default">Make Payment</button>
             </form>
