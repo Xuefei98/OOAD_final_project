@@ -25,4 +25,6 @@ Due to COVID-19, there has been a sharp increase in preference for drive-in thea
 ### Instructions to run the application:
 1. Run controller.py class. This starts flask server on localhost:5000 and renders corresponding html pages as you navigate the web app.
 2. client.py can also be used to test all the API end points.
+### Demo Link:
+https://youtu.be/1X4MQMpYRNE
 
